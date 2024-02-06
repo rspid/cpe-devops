@@ -33,3 +33,7 @@ On s'attribue notre image avec la commande `docker tag nom-image-locale davvcpe/
 Pour finir de compléter le fichier `main.yaml` j'ai suivi le fichier de configuration/build d'un fichier maven donné par github
 
 On utilise la commande `mvn package` pour build notre code et la commande `mvn verify` pour lancer la série de tests unitaires.
+
+On va tout d'abord créer un nouveau token sur Dockerhub. Nous allons ensuite créer nos deux repository secrets pour pouvoir ensuite tester notre nouveau pipeline avec la nouvelle action `build-and-push-docker-image`.
+
+Pour le context on renseigne le chemin vers le fichier Dockerfile et pour le tags on renseigne bien le nom de l'image que nous avons push sur Dockerhub.
