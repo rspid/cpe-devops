@@ -37,3 +37,5 @@ On utilise la commande `mvn package` pour build notre code et la commande `mvn v
 On va tout d'abord créer un nouveau token sur Dockerhub. Nous allons ensuite créer nos deux repository secrets pour pouvoir ensuite tester notre nouveau pipeline avec la nouvelle action `build-and-push-docker-image`.
 
 Pour le context on renseigne le chemin vers le fichier Dockerfile et pour le tags on renseigne bien le nom de l'image que nous avons push sur Dockerhub.
+
+Pour la suite nous allons générer notre token sur Sonar pour le rajouter sur Github, une fois cela terminée nous n'avons plus qu'a modifier la dernière ligne de vérification pour cette fois utiliser Sonar.
