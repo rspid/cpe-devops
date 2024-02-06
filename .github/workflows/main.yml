@@ -25,7 +25,7 @@ jobs:
 
       - name: Run the Maven verify phase
         # run: mvn --batch-mode --update-snapshots verify --file BackendAPI/simple-api-student-main/pom.xml
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=rspid_cpe-devops -Dsonar.organization=rspid -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file BackendAPI/simple-api-student-main/pom.xml
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=rspid_cpe-devops -Dsonar.organization=rspid -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} --file BackendAPI/simple-api-student-main/pom.xml
 
   build-and-push-docker-image:
     needs: test-backend
