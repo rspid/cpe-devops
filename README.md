@@ -29,3 +29,5 @@ On complète le fichier docker-compose.yaml en renseignant les bons ports et les
 On s'attribue notre image avec la commande `docker tag nom-image-locale davvcpe/nom-image-hébergée:1.0` puis on la publie avec la commande `docker push davvcpe/myhttpd:1.0`.
 
 # TP 02 - Github Actions
+
+Pour finir de compléter le fichier `main.yaml` j'ai suivi le fichier de configuration/build d'un fichier maven donné par github
