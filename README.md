@@ -31,3 +31,5 @@ On s'attribue notre image avec la commande `docker tag nom-image-locale davvcpe/
 # TP 02 - Github Actions
 
 Pour finir de compléter le fichier `main.yaml` j'ai suivi le fichier de configuration/build d'un fichier maven donné par github
+
+On utilise la commande `mvn package` pour build notre code et la commande `mvn verify` pour lancer la série de tests unitaires.

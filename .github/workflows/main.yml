@@ -22,3 +22,37 @@ jobs:
         run: mvn -B package --file BackendAPI/simple-api-student-main/pom.xml
       - name: Run the Maven verify phase
         run: mvn --batch-mode --update-snapshots verify --file BackendAPI/simple-api-student-main/pom.xml
+  # define job to build and publish docker image
+build-and-push-docker-image:
+  needs: test-backend
+  # run only when code is compiling and tests are passing
+  runs-on: ubuntu-22.04
+
+  # steps to perform in job
+  steps:
+    - name: Login to DockerHub
+      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Checkout code
+      uses: actions/checkout@v2.5.0
+
+    - name: Build image and push backend
+      uses: docker/build-push-action@v3
+      with:
+        context: ./BackendAPI/simple-api-student-main
+        tags: ${{secrets.DOCKERHUB_USERNAME}}/my-backend:latest
+        push: ${{ github.ref == 'refs/heads/main' }}
+
+    - name: Build image and push database
+      uses: docker/build-push-action@v3
+      with:
+        context: ./Database
+        tags: ${{secrets.DOCKERHUB_USERNAME}}/my-database:latest
+        push: ${{ github.ref == 'refs/heads/main' }}
+
+    - name: Build image and push httpd
+      uses: docker/build-push-action@v3
+      with:
+        context: ./HttpServer
+        tags: ${{secrets.DOCKERHUB_USERNAME}}/my-httpd:latest
+        push: ${{ github.ref == 'refs/heads/main' }}
