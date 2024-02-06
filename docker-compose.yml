@@ -7,11 +7,20 @@ services:
       - my-network
     depends_on:
       - database
+    environment:
+      - DB_URL=database:5432
+      - DB_USER=usr
+      - DB_PWD=pwd
+      - DB_NAME=db
 
   database:
     image: davvcpe/my-database:1.0
     networks:
       - my-network
+    environment:
+      - POSTGRES_PASSWORD=pwd
+      - POSTGRES_USER=usr
+      - POSTGRES_DB=db
 
   httpd:
     image: davvcpe/my-httpd:1.0
