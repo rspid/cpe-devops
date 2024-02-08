@@ -2,27 +2,27 @@
 
 ## Database
 
-Pour build notre app nous utilisons la commande
+Pour build notre Dockerfile nous utilisons la commande en spécifiant en dernier paramètre le chemin de notre fichier
 `docker build -t myfirstapp .`
 
-Run notre app en spécifiant le volume et le network.
+Nous lançons notre container en spécifiant le volume, le network et le nom du build en dernier paramètre.
 `docker run --name myfirstapp --net=app-network -v my-vol:/var/lib/postgresql/data myfirstapp`
 
 ## Backend API
 
-On utilise un Multistage build premièrement pour éviter de build ce code Java sur notre machine mais bien dans un container Docker.
+On utilise un Multistage build premièrement pour éviter de build le code Java sur notre machine mais bien dans un container Docker.
 
 ### Backend API
 
-Après avoir ajouté le Dockerfile et modifié la valeur des champs : url, user et password dans le fichier application.yml avec les bonnes valeurs cela fonctionne.
+Après avoir ajouté le Dockerfile et modifié la valeur des champs : url, user et password dans le fichier **application.yml** avec les bonnes valeurs cela fonctionne bien.
 
 ## Http Server
 
-On éxécute la commande `docker cp <container_name_or_id>:/usr/local/apache2/conf/httpd.conf ./httpd.conf` pour générer le fichier `httpd.conf` sur notre machine pour ensuite le modifier.
+On éxécute la commande : `docker cp <container_name_or_id>:/usr/local/apache2/conf/httpd.conf ./httpd.conf` pour générer le fichier **httpd.conf** sur notre machine pour pouvoir ensuite le modifier.
 
 ## Link
 
-On complète le fichier docker-compose.yaml en renseignant les bons ports et les chemins des builds avec les chemins des fichier Dockerfile locaux.
+On complète le fichier **docker-compose.yaml** en renseignant les bons ports et les chemins des builds avec les chemins des fichier Dockerfile locaux.
 
 ## Publish
 
@@ -30,7 +30,7 @@ On s'attribue notre image avec la commande `docker tag nom-image-locale davvcpe/
 
 # TP 02 - Github Actions
 
-Pour finir de compléter le fichier `main.yaml` j'ai suivi le fichier de configuration/build d'un fichier maven donné par github
+Pour finir de compléter le fichier **main.yaml** j'ai suivi le fichier de configuration/build d'un fichier maven donné par Github.
 
 On utilise la commande `mvn package` pour build notre code et la commande `mvn verify` pour lancer la série de tests unitaires.
 
@@ -39,3 +39,113 @@ On va tout d'abord créer un nouveau token sur Dockerhub. Nous allons ensuite cr
 Pour le context on renseigne le chemin vers le fichier Dockerfile et pour le tags on renseigne bien le nom de l'image que nous avons push sur Dockerhub.
 
 Pour la suite nous allons générer notre token sur Sonar pour le rajouter sur Github, une fois cela terminée nous n'avons plus qu'a modifier la dernière ligne de vérification pour cette fois utiliser Sonar.
+
+# TP 03 - Ansible
+
+**Résultat du test de ping avec Ansible :**
+
+```yaml
+david.pichard.takima.cloud | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+```
+
+**Résultat du test de l'OS**
+
+```yaml
+david.pichard.takima.cloud | SUCCESS => {
+    "ansible_facts": {
+        "ansible_distribution": "CentOS",
+        "ansible_distribution_file_parsed": true,
+        "ansible_distribution_file_path": "/etc/redhat-release",
+        "ansible_distribution_file_variety": "RedHat",
+        "ansible_distribution_major_version": "7",
+        "ansible_distribution_release": "Core",
+        "ansible_distribution_version": "7.9",
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false
+}
+```
+
+**Résultat de la suppresion de httpd:**
+
+```yaml
+david.pichard.takima.cloud | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "msg": "",
+    "rc": 0,
+    "results": [
+        "httpd is not installed"
+    ]
+}
+```
+
+**Résultat de l'éxécution du playbook**
+
+```yaml
+PLAY [all] ***********************************************************************************************************************************************************************************
+
+TASK [Test connection] ***********************************************************************************************************************************************************************
+ok: [david.pichard.takima.cloud]
+
+PLAY RECAP ***********************************************************************************************************************************************************************************
+david.pichard.takima.cloud : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+**Résultat de l'éxécution du playbook advanced**
+
+```yaml
+PLAY [all] *******************************************************************************************************************************************************************************************
+
+TASK [Install device-mapper-persistent-data] *********************************************************************************************************************************************************
+changed: [david.pichard.takima.cloud]
+
+TASK [Install lvm2] **********************************************************************************************************************************************************************************
+changed: [david.pichard.takima.cloud]
+
+TASK [add repo docker] *******************************************************************************************************************************************************************************
+changed: [david.pichard.takima.cloud]
+
+TASK [Install Docker] ********************************************************************************************************************************************************************************
+changed: [david.pichard.takima.cloud]
+
+TASK [Install python3] *******************************************************************************************************************************************************************************
+changed: [david.pichard.takima.cloud]
+
+TASK [Install docker with Python 3] ******************************************************************************************************************************************************************
+changed: [david.pichard.takima.cloud]
+
+TASK [Make sure Docker is running] *******************************************************************************************************************************************************************
+changed: [david.pichard.takima.cloud]
+
+PLAY RECAP *******************************************************************************************************************************************************************************************
+david.pichard.takima.cloud : ok=7    changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+**Utilisation des rôles:**
+
+A la suite de la commande `ansible-galaxy init roles/docker` un dossier roles est bien crée dans notre repository.
+
+On crée ensuite les différents rôles avec les commandes :
+
+```shell
+dav@mbad ansible % ansible-galaxy init roles/docker
+- Role roles/docker was created successfully
+dav@mbad ansible % ansible-galaxy init roles/network
+- Role roles/network was created successfully
+dav@mbad ansible % ansible-galaxy init roles/database
+- Role roles/database was created successfully
+dav@mbad ansible % ansible-galaxy init roles/app
+- Role roles/app was created successfully
+dav@mbad ansible % ansible-galaxy init roles/proxy
+- Role roles/proxy was created successfully
+dav@mbad ansible %
+```

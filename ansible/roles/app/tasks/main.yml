@@ -1,0 +1,13 @@
+---
+- name: Run app
+  docker_container:
+    name: backend
+    image: davvcpe/my-backend:1.0
+    networks:
+      - name: my-network
+    env:
+      DB_URL: "database:5432"
+      DB_USER: "usr"
+      DB_PWD: "pwd"
+      DB_NAME: "db"
+    restart_policy: always

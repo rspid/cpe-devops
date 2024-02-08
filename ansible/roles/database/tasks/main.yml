@@ -1,0 +1,16 @@
+---
+- name: Run database container
+  docker_container:
+    name: database
+    image: davvcpe/my-database:1.0
+    networks:
+      - name: my-network
+    env:
+      POSTGRES_PASSWORD: "pwd"
+      POSTGRES_USER: "usr"
+      POSTGRES_DB: "db"
+    ports:
+      - "5454:5432"
+    volumes:
+      - /var/lib/postgresql/data
+    restart_policy: always

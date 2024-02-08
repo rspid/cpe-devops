@@ -1,0 +1,14 @@
+---
+- name: Run httpd container
+  docker_container:
+    name: httpd
+    image: davvcpe/my-httpd:1.0
+    ports:
+      - "80:80"
+    networks:
+      - name: my-network
+    restart_policy: always
+
+- name: Ansible playbook to retrieve environment variables on windows servers.
+  debug:
+    msg: "{{ansible_env}}"
