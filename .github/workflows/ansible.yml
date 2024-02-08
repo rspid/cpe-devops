@@ -22,8 +22,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install ansible
+
+      - name: Check SSH Connection
+        run: ssh -i ssh/id_rsa centos@david.pichard.takima.cloud echo "SSH connection successful!"
+
       - name: Create Vault password file
         run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > ansible/vault-password-file
+
       - name: Run Ansible playbook
         env:
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
