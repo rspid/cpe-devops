@@ -22,9 +22,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install ansible
-
+      - name: Create Vault password file
+        run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > ansible/vault-password-file
       - name: Run Ansible playbook
         env:
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
         run: |
-          ansible-playbook -i ansible/inventories/setup.yml ansible/firstplaybook.yml ansible/deploy_app.yml
+          ansible-playbook -i ansible/inventories/setup.yml ansible/firstplaybook.yml ansible/deploy_app.yml --vault-password-file vault-password-file
