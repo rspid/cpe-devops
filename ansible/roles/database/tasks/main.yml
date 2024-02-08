@@ -1,16 +1,15 @@
 ---
-- name: Run database container
+# tasks file for roles/database
+- name: Run Database
   docker_container:
     name: database
-    image: davvcpe/my-database:1.0
+    image: davvcpe/my-database:latest
     networks:
       - name: my-network
-    env:
-      POSTGRES_PASSWORD: "pwd"
-      POSTGRES_USER: "usr"
-      POSTGRES_DB: "db"
-    ports:
-      - "5454:5432"
+    state: started
+    recreate: true
+    pull: true
     volumes:
       - /var/lib/postgresql/data
-    restart_policy: always
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

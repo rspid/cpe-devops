@@ -1,13 +1,13 @@
 ---
-- name: Run app
+# tasks file for roles/database
+- name: Run Database
   docker_container:
     name: backend
-    image: davvcpe/my-backend:1.0
+    image: davvcpe/my-backend:latest
     networks:
       - name: my-network
-    env:
-      DB_URL: "database:5432"
-      DB_USER: "usr"
-      DB_PWD: "pwd"
-      DB_NAME: "db"
-    restart_policy: always
+    state: started
+    recreate: true
+    pull: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

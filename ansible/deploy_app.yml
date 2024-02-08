@@ -8,3 +8,5 @@
     - database
     - app
     - proxy
+  vars_files:
+    - vault.yml

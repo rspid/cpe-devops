@@ -1,14 +1,15 @@
 ---
-- name: Run httpd container
+# tasks file for roles/proxy
+- name: Run Proxy
   docker_container:
-    name: httpd
-    image: davvcpe/my-httpd:1.0
-    ports:
-      - "80:80"
+    name: proxy
+    image: davvcpe/my-httpd:latest
     networks:
       - name: my-network
-    restart_policy: always
-
-- name: Ansible playbook to retrieve environment variables on windows servers.
-  debug:
-    msg: "{{ansible_env}}"
+    ports:
+      - "80:80"
+    state: started
+    recreate: true
+    pull: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
