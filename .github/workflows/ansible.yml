@@ -27,4 +27,4 @@ jobs:
         env:
           ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
         run: |
-          ansible-playbook -i ansible/inventories/setup.yml ansible/firstplaybook.yml ansible/deploy_app.yml --ask-vault-pass
+          ansible-playbook -i ansible/inventories/setup.yml ansible/firstplaybook.yml ansible/deploy_app.yml
