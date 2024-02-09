@@ -1,6 +1,6 @@
 ---
-# tasks file for roles/database
-- name: Run Database
+# tasks file for roles/backend
+- name: Run App
   docker_container:
     name: backend
     image: davvcpe/my-backend:latest
